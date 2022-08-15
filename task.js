@@ -1,3 +1,5 @@
+"use strict";
+
 function solveEquation(a, b, c) {
   // код для задачи №1 писать здесь
   let root = [];
@@ -17,9 +19,25 @@ function solveEquation(a, b, c) {
 }
 
 function calculateTotalMortgage(percent, contribution, amount, date) {
-  let totalAmount;
+  let dateNow = new Date();
+  let monthCount;
+  let monthPercent;
+  let loanBody;
+  let payment;
+  let totalAmount
 
-  // код для задачи №2 писать здесь
+  if (date < dateNow && percent > 0 && contribution > 0 && amount > 0) { // Обработка крайних случаев
+    return Error;
+  } else if (date.getFullYear() - dateNow.getFullYear() === 0) {
+    monthCount = date.getMonth() - dateNow.getMonth();
+  } else {
+    monthCount = (date.getMonth() - dateNow.getMonth()) + (12 * (date.getFullYear() - dateNow.getFullYear()));
+  }
+  monthPercent = (percent / 12) / 100;
+  loanBody = amount - contribution;
+  payment = loanBody * (monthPercent + (monthPercent / (((1 + monthPercent) ** monthCount) - 1)))
+  totalAmount = (parseInt(contribution) + (payment * monthCount)).toFixed(2);
 
   return totalAmount;
 }
+
